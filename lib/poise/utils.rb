@@ -36,14 +36,16 @@ module Poise
     #     # ...
     #   end
     def find_cookbook_name(run_context, filename)
+      require 'pry'; binding.pry
       possibles = {}
       Chef::Log.debug("[Poise] Checking cookbook for #{filename.inspect}")
       run_context.cookbook_collection.each do |name, ver|
+        Chef::Log.debug("[Poise] name=#{name} ver=#{ver.inspect}")
         # This special method is added by Halite::Gem#as_cookbook_version.
         if ver.respond_to?(:halite_root)
           # The join is there because ../poise-ruby/lib starts with ../poise so
           # we want a trailing /.
-          Chef::Log.debug("")
+          Chef::Log.debug("[Poise] filename=#{filename}")
           if filename.start_with?(File.join(ver.halite_root, ''))
             Chef::Log.debug("[Poise] Found matching halite_root in #{name}: #{ver.halite_root.inspect}")
             possibles[ver.halite_root] = name
