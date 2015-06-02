@@ -28,7 +28,7 @@ module Poise
 
       def subcontext_block(parent_context=nil, &block)
         # Setup a sub-run-context.
-        parent_context ||= @run_context
+        parent_context ||= @run_context.dup
         sub_run_context = parent_context.dup
         sub_run_context.resource_collection = Poise::Subcontext::ResourceCollection.new(parent_context.resource_collection)
 
